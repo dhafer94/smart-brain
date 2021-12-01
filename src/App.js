@@ -8,12 +8,41 @@ import particlesOptions, {
 	particlesInit,
 	particlesLoaded,
 } from './particlesOptions';
+import Clarifai from 'clarifai';
 import './App.css';
 
+const app = new Clarifai.App({
+	apiKey: 'YOUR_API_KEY',
+});
+
 class App extends Component {
+	constructor() {
+		super();
+		this.state = {
+			input: '',
+		};
+	}
+	onInputChange = (evt) => {
+		console.log(evt.target.value);
+	};
+	onButtonSubmit = () => {
+		console.log('click');
+		app.models
+			.predict(
+				Clarifai.FACE_DETECT_MODEL,
+				// THE JPG
+				'https://i.insider.com/5d321d4ea209d3146d650b4a?width=1100&format=jpeg&auto=webp',
+			)
+			.then((response) => {
+				console.log(response);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
 	render() {
 		return (
-			<>
+			<div className='App'>
 				<Particles
 					className='particles'
 					id='tsparticles'
@@ -24,10 +53,13 @@ class App extends Component {
 				<Navigation />
 				<Logo />
 				<Rank />
-				<ImageLinkForm />
+				<ImageLinkForm
+					onButtonSubmit={this.onButtonSubmit}
+					onInputChange={this.onInputChange}
+				/>
 
 				{/* <FaceRecognition /> */}
-			</>
+			</div>
 		);
 	}
 }
