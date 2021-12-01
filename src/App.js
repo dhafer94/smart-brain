@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Navigation from './Components/Navigation/Navigation';
 import Logo from './Components/Logo/Logo';
 import ImageLinkForm from './Components/ImageLinkForm/ImageLinkForm';
@@ -10,24 +10,26 @@ import particlesOptions, {
 } from './particlesOptions';
 import './App.css';
 
-function App() {
-	return (
-		<>
-			<Particles
-				className='particles'
-				id='tsparticles'
-				init={particlesInit}
-				loaded={particlesLoaded}
-				options={particlesOptions}
-			/>
-			<Navigation />
-			<Logo />
-			<Rank />
-			<ImageLinkForm />
+class App extends Component {
+	render() {
+		return (
+			<>
+				<Particles
+					className='particles'
+					id='tsparticles'
+					init={particlesInit}
+					loaded={particlesLoaded}
+					options={particlesOptions}
+				/>
+				<Navigation />
+				<Logo />
+				<Rank />
+				<ImageLinkForm />
 
-			{/* <FaceRecognition /> */}
-		</>
-	);
+				{/* <FaceRecognition /> */}
+			</>
+		);
+	}
 }
 
 export default App;
