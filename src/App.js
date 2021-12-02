@@ -8,6 +8,7 @@ import Clarifai from 'clarifai';
 import FaceRecognition from './Components/FaceRecognition/FaceRecognition';
 import Navigation from './Components/Navigation/Navigation';
 import Logo from './Components/Logo/Logo';
+import Signin from './Components/Signin/Signin';
 import ImageLinkForm from './Components/ImageLinkForm/ImageLinkForm';
 import Rank from './Components/Rank/Rank';
 import './App.css';
@@ -75,6 +76,7 @@ class App extends Component {
 					options={particlesOptions}
 				/>
 				<Navigation />
+				<Signin />
 				<Logo />
 				<Rank />
 				<ImageLinkForm

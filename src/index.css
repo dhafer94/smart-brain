@@ -4,6 +4,7 @@ body {
 	font-family: 'Courier New', Courier, monospace;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	font-weight: bold;
 	background: linear-gradient(to left, rgb(189, 251, 255), rgb(246, 162, 106));
 }
 
