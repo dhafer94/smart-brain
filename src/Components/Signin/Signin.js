@@ -1,54 +1,92 @@
 import React from 'react';
 
-const SignIn = ({ onRouteChange }) => {
-	return (
-		<article className='br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center'>
-			<main className='pa4 black-80'>
-				<div className='measure'>
-					<fieldset id='sign_up' className='ba b--transparent ph0 mh0'>
-						<legend className='f1 fw6 ph0 mh0'>Sign In</legend>
-						<div className='mt3'>
-							<label className='db lh-copy f5' htmlFor='email-address'>
-								Email
-							</label>
+class Signin extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			signInEmail: '',
+			signInPassword: '',
+		};
+	}
+
+	onEmailChange = (evt) => {
+		this.setState({ signInEmail: evt.target.value });
+	};
+	onPasswordChange = (evt) => {
+		this.setState({ signInPassword: evt.target.value });
+	};
+
+	onSubmitSignIn = () => {
+		fetch('http://localhost:3001/signin', {
+			method: 'post',
+			headers: { 'content-Type': 'application/json' },
+			body: JSON.stringify({
+				email: this.state.signInEmail,
+				password: this.state.signInPassword,
+			})
+		})
+			.then(res => res.json())
+			.then(data => {
+				if (data === 'success') {
+					this.props.onRouteChange('home');
+				}
+			});
+	};
+
+	render() {
+		const { onRouteChange } = this.props;
+		return (
+			<article className='br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center' >
+				<main className='pa4 black-80'>
+					<div className='measure'>
+						<fieldset id='sign_up' className='ba b--transparent ph0 mh0'>
+							<legend className='f1 fw6 ph0 mh0'>Sign In</legend>
+							<div className='mt3'>
+								<label className='db lh-copy f5' htmlFor='email-address'>
+									Email
+								</label>
+								<input
+									onChange={this.onEmailChange}
+									className='pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100'
+									type='email'
+									name='email-address'
+									id='email-address'
+								/>
+							</div>
+							<div className='mv3'>
+								<label className='db lh-copy f5' htmlFor='password'>
+									Password
+								</label>
+								<input
+									onChange={this.onPasswordChange}
+									className='b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100'
+									type='password'
+									name='password'
+									id='password'
+								/>
+							</div>
+						</fieldset>
+						<div>
 							<input
-								className='pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100'
-								type='email'
-								name='email-address'
-								id='email-address'
+								className='b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib'
+								type='submit'
+								value='Sign in'
+								onClick={this.onSubmitSignIn}
 							/>
 						</div>
-						<div className='mv3'>
-							<label className='db lh-copy f5' htmlFor='password'>
-								Password
-							</label>
-							<input
-								className='b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100'
-								type='password'
-								name='password'
-								id='password'
-							/>
+						<div className='lh-copy mt3'>
+							<p
+								onClick={() => onRouteChange('register')}
+								className='b f6 link dim black db pointer'>
+								Register
+							</p>
 						</div>
-					</fieldset>
-					<div>
-						<input
-							className='b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib'
-							type='submit'
-							value='Sign in'
-							onClick={() => onRouteChange('home')}
-						/>
 					</div>
-					<div className='lh-copy mt3'>
-						<p
-							onClick={() => onRouteChange('register')}
-							className='b f6 link dim black db pointer'>
-							Register
-						</p>
-					</div>
-				</div>
-			</main>
-		</article>
-	);
+				</main>
+			</article>
+		);
+
+	}
 };
 
-export default SignIn;
+export default Signin;
