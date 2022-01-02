@@ -15,7 +15,7 @@ import Rank from './Components/Rank/Rank';
 import './App.css';
 
 const app = new Clarifai.App({
-	apiKey: 'apiKey',
+	apiKey: 'a34a61556da74e1b9fbd934fa8f8a0af',
 });
 
 class App extends Component {
@@ -40,7 +40,7 @@ class App extends Component {
 	loadUser = (data) => {
 		this.setState({
 			user: {
-				id: data.is,
+				id: data.id,
 				name: data.name,
 				email: data.email,
 				entries: data.entries,
@@ -73,7 +73,7 @@ class App extends Component {
 	onInputChange = (evt) => {
 		this.setState({ input: evt.target.value });
 	};
-	onButtonSubmit = () => {
+	onPictureSubmit = () => {
 		this.setState({ imageUrl: this.state.input });
 		app.models
 			.predict(
@@ -81,9 +81,26 @@ class App extends Component {
 				// THE JPG
 				this.state.input,
 			)
-			.then((response) =>
-				this.displayFaceBox(this.calculateFaceLocation(response)),
-			)
+			.then((response) => {
+				if (response) {
+					fetch('http://localhost:3001/image', {
+						method: 'put',
+						headers: { 'content-Type': 'application/json' },
+						body: JSON.stringify({
+							id: this.state.user.id,
+						})
+					})
+						.then(res => res.json())
+						.then(count => {
+							this.setState(Object.assign(this.state.user, {
+								entries: count
+							}));
+						});
+
+				}
+
+				this.displayFaceBox(this.calculateFaceLocation(response));
+			})
 			// console.log(response);
 			.catch((err) => console.log(err));
 	};
@@ -115,9 +132,9 @@ class App extends Component {
 				{this.state.route === 'home' ? (
 					<div>
 						<Logo />
-						<Rank entries={this.state.entries} name={this.state.user.name} />
+						<Rank entries={this.state.user.entries} name={this.state.user.name} />
 						<ImageLinkForm
-							onButtonSubmit={this.onButtonSubmit}
+							onPictureSubmit={this.onPictureSubmit}
 							onInputChange={this.onInputChange}
 						/>
 
