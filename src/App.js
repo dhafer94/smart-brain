@@ -39,11 +39,13 @@ class App extends Component {
 
 	loadUser = (data) => {
 		this.setState({
-			id: data.is,
-			name: data.name,
-			email: data.email,
-			entries: data.entries,
-			joined: data.joined,
+			user: {
+				id: data.is,
+				name: data.name,
+				email: data.email,
+				entries: data.entries,
+				joined: data.joined,
+			}
 		});
 	};
 
@@ -113,7 +115,7 @@ class App extends Component {
 				{this.state.route === 'home' ? (
 					<div>
 						<Logo />
-						<Rank />
+						<Rank entries={this.state.entries} name={this.state.user.name} />
 						<ImageLinkForm
 							onButtonSubmit={this.onButtonSubmit}
 							onInputChange={this.onInputChange}
@@ -122,7 +124,7 @@ class App extends Component {
 						<FaceRecognition box={box} imageUrl={imageUrl} />
 					</div>
 				) : route === 'signin' ? (
-					<Signin onRouteChange={this.onRouteChange} />
+					<Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
 				) : (
 					<Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
 				)}
