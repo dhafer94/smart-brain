@@ -19,7 +19,7 @@ class Register extends React.Component {
 		this.setState({ password: evt.target.value });
 	};
 
-	onSubmitSignIn = () => {
+	onRegister = () => {
 		fetch('http://localhost:3001/register', {
 			method: 'post',
 			headers: { 'content-Type': 'application/json' },
@@ -89,7 +89,7 @@ class Register extends React.Component {
 								className='b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib'
 								type='submit'
 								value='Sign in'
-								onClick={this.onSubmitSignIn}
+								onClick={this.onRegister}
 							/>
 						</div>
 					</div>
