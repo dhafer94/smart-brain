@@ -14,9 +14,7 @@ import ImageLinkForm from './Components/ImageLinkForm/ImageLinkForm';
 import Rank from './Components/Rank/Rank';
 import './App.css';
 
-const app = new Clarifai.App({
-	apiKey: 'apiKey',
-});
+
 const initialState = {
 	input: '',
 	imageUrl: '',
@@ -76,12 +74,14 @@ class App extends Component {
 	};
 	onPictureSubmit = () => {
 		this.setState({ imageUrl: this.state.input });
-		app.models
-			.predict(
-				Clarifai.FACE_DETECT_MODEL,
-				// THE JPG
-				this.state.input,
-			)
+		fetch('http://localhost:3001/imageUrl', {
+			method: 'post',
+			headers: { 'content-Type': 'application/json' },
+			body: JSON.stringify({
+				input: this.state.input,
+			})
+		})
+			.then(response => response.json())
 			.then((response) => {
 				if (response) {
 					fetch('http://localhost:3001/image', {
@@ -91,7 +91,7 @@ class App extends Component {
 							id: this.state.user.id,
 						})
 					})
-						.then(res => res.json())
+						.then(response => response.json())
 						.then(count => {
 							this.setState(Object.assign(this.state.user, {
 								entries: count
@@ -100,7 +100,6 @@ class App extends Component {
 						.catch(console.log);
 
 				}
-
 				this.displayFaceBox(this.calculateFaceLocation(response));
 			})
 			// console.log(response);
