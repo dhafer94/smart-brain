@@ -1,5 +1,4 @@
 import React from 'react';
-import { divMode } from 'tsparticles';
 
 const Navigation = ({ onRouteChange, isSignedIn }) => {
 	if (isSignedIn) {

@@ -15,26 +15,27 @@ import Rank from './Components/Rank/Rank';
 import './App.css';
 
 const app = new Clarifai.App({
-	apiKey: 'a34a61556da74e1b9fbd934fa8f8a0af',
+	apiKey: 'apiKey',
 });
+const initialState = {
+	input: '',
+	imageUrl: '',
+	box: {},
+	route: 'signin',
+	isSignedIn: false,
+	user: {
+		id: '',
+		name: '',
+		email: '',
+		entries: 0,
+		joined: '',
+	}
+};
 
 class App extends Component {
 	constructor() {
 		super();
-		this.state = {
-			input: '',
-			imageUrl: '',
-			box: {},
-			route: 'signin',
-			isSignedIn: false,
-			user: {
-				id: '',
-				name: '',
-				email: '',
-				entries: 0,
-				joined: '',
-			}
-		};
+		this.state = initialState;
 	}
 
 	loadUser = (data) => {
@@ -95,7 +96,8 @@ class App extends Component {
 							this.setState(Object.assign(this.state.user, {
 								entries: count
 							}));
-						});
+						})
+						.catch(console.log);
 
 				}
 
@@ -107,7 +109,7 @@ class App extends Component {
 
 	onRouteChange = (route) => {
 		if (route === 'signout') {
-			this.setState({ isSignedIn: false });
+			this.setState(initialState);
 		} else if (route === 'home') {
 			this.setState({ isSignedIn: true });
 		}
