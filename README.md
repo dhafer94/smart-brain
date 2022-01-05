@@ -2,6 +2,7 @@
 
 ### Description:
 This is an application build on the top of ReacJS, NodeJS, and PostgreSQL with the help of Clarifai API to detect faces, still have much to improve on it of course.
+The server and DB are deployed on Heroku.
 
 ### How to use:
 
